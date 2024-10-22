@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPOCH TIME CONVERTER -UNIX TIMESTAMP CONVERTER</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Mono&display=swap');
+
+        :root {
+            --primary: #2D3250;
+            --secondary: #424769;
+            --accent: #7077A1;
+            --light: #F6B17A;
+            --background: #f7f7f9;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--background);
+            color: var(--primary);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--light);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        nav {
+            background-color: var(--secondary);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            background-color: var(--light);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .epoch-explanation, .converter-section {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-top: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .epoch-explanation:hover, .converter-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .epoch-time {
+            font-family: 'Space Mono', monospace;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+            50% { box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); }
+            100% { box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        }
+
+        .converter-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .converter-box {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .converter-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Space Mono', monospace;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(112, 119, 161, 0.2);
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: var(--background);
+            border-radius: 10px;
+            font-family: 'Space Mono', monospace;
+            border: 2px solid #e1e1e1;
+            transition: all 0.3s ease;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(135deg, var(--accent), var(--light));
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin-bottom: 1.2rem;
+            font-weight: 500;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        ul {
+            list-style-position: inside;
+            margin-left: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 2rem; }
+            main { padding: 1rem; }
+            nav a { margin: 0 0.5rem; }
+            .converter-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="animate__animated animate__fadeIn">
+        <div class="logo-container">
+            <div class="logo">EPOCH TIMELY</div>
+        </div>
+    </header>
+    
+    <nav class="animate__animated animate__fadeIn">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="Tools">Batch Converter</a>
+        <a href="Epoch_clock/">Epoch Clock</a>
+        
+        
+          
+        
+    </nav>
+
+    <main>
+        <div class="epoch-explanation animate__animated animate__fadeInUp">
+            <h2>What is Epoch Time?</h2>
+            <p>
+                Epoch time, also known as Unix timestamp, is the number of seconds that have elapsed since January 1, 1970, at 00:00:00 UTC. This point in time is known as the Unix Epoch, and it serves as a universal reference point for computer systems.
+            </p>
+            <div class="epoch-time" id="currentEpoch">
+                <div style="text-align: center;">
+                    <div style="font-size: 0.9rem; margin-bottom: 0.5rem;">Current Epoch Time:</div>
+                    <div style="font-size: 1.4rem; font-weight: bold;" id="epochNumber"></div>
+                    <div style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.9;">
+                        (Updates every second)
+                    </div>
+                </div>
+            </div>
+            <p>
+                This standardized way of tracking time is widely used in computing and programming. It's particularly useful because it:
+            </p>
+            <ul>
+                <li>Provides a single number to represent a specific moment in time</li>
+                <li>Is independent of time zones and calendars</li>
+                <li>Makes it easy to calculate time differences</li>
+                <li>Is widely supported across different operating systems and programming languages</li>
+            </ul>
+        </div>
+
+        <div class="converter-section animate__animated animate__fadeInUp">
+            <h2>Epoch Time Converter</h2>
+            <div class="converter-container">
+                <div class="converter-box">
+                    <h3>Epoch to Human Date</h3>
+                    <div class="input-group">
+                        <label for="epochInput">Enter Epoch Timestamp:</label>
+                        <input type="number" id="epochInput" placeholder="e.g., 1698765432">
+                        <button onclick="convertEpochToHuman()">Convert to Date</button>
+                    </div>
+                    <div class="result" id="humanResult">Conversion result will appear here</div>
+                </div>
+
+                <div class="converter-box">
+                    <h3>Human Date to Epoch</h3>
+                    <div class="input-group">
+                        <label for="dateInput">Enter Date and Time:</label>
+                        <input type="datetime-local" id="dateInput">
+                        <button onclick="convertHumanToEpoch()">Convert to Epoch</button>
+                    </div>
+                    <div class="result" id="epochResult">Conversion result will appear here</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="animate__animated animate__fadeIn">
+        <p>&copy; 2024 EPOCH TIMELY. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function updateEpochTime() {
+            const epochNumber = document.getElementById('epochNumber');
+            const currentEpoch = Math.floor(Date.now() / 1000);
+            epochNumber.textContent = currentEpoch;
+        }
+
+        function convertEpochToHuman() {
+            const epochInput = document.getElementById('epochInput').value;
+            const humanResult = document.getElementById('humanResult');
+            
+            try {
+                const date = new Date(epochInput * 1000);
+                if (isNaN(date.getTime())) {
+                    throw new Error('Invalid epoch time');
+                }
+                humanResult.textContent = date.toLocaleString() + ' (Local Time)';
+                humanResult.style.color = '#2D3250';
+            } catch (error) {
+                humanResult.textContent = 'Please enter a valid epoch timestamp';
+                humanResult.style.color = '#ff4444';
+            }
+        }
+
+        function convertHumanToEpoch() {
+            const dateInput = document.getElementById('dateInput').value;
+            const epochResult = document.getElementById('epochResult');
+            
+            try {
+                const date = new Date(dateInput);
+                if (isNaN(date.getTime())) {
+                    throw new Error('Invalid date');
+                }
+                const epoch = Math.floor(date.getTime() / 1000);
+                epochResult.textContent = `Epoch Time: ${epoch}`;
+                epochResult.style.color = '#2D3250';
+            } catch (error) {
+                epochResult.textContent = 'Please enter a valid date and time';
+                epochResult.style.color = '#ff4444';
+            }
+        }
+
+        // Initialize
+        updateEpochTime();
+        setInterval(updateEpochTime, 1000);
+
+        // Set default value for date input to current time
+        const now = new Date();
+        const offset = now.getTimezoneOffset() * 60000;
+        const localISOTime = (new Date(now - offset)).toISOString().slice(0, 16);
+        document.getElementById('dateInput').value = localISOTime;
+    </script>
+</body>
+</html>

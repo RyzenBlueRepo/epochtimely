@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Unix Epoch Time Tools</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <main class="max-w-4xl mx-auto p-6 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">About Unix Epoch Time Tools</h1>
+            <div class="text-xl text-gray-600" id="live-epoch"></div>
+        </header>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">What is Unix Epoch Time?</h2>
+            <p class="text-gray-700 mb-4">
+                Unix epoch time, also known as Unix timestamp, is a way to track time as a running total of seconds since January 1st, 1970 at UTC 00:00:00. This moment in time is called the Unix Epoch, and it serves as a universal reference point used by computer systems around the world.
+            </p>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Our Tools</h2>
+            <div class="space-y-4">
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800">Epoch Clock</h3>
+                    <p class="text-gray-600">A real-time display of the current Unix timestamp, updating every second to show you the exact number of seconds since the Unix Epoch.</p>
+                </div>
+                <div class="border-l-4 border-green-500 pl-4">
+                    <h3 class="text-xl font-medium text-gray-800">Epoch Converter</h3>
+                    <p class="text-gray-600">Convert between human-readable dates and Unix timestamps with ease. Perfect for developers, system administrators, and anyone working with timestamp data.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Why Use Unix Epoch Time?</h2>
+            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>Universal Time Reference: Independent of time zones and calendars</li>
+                <li>Simple Calculations: Easy to perform date/time arithmetic</li>
+                <li>Storage Efficiency: Requires less space than formatted date strings</li>
+                <li>Cross-Platform Compatibility: Works consistently across different systems</li>
+                <li>Programming Friendly: Widely supported in programming languages and databases</li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Fun Facts</h2>
+            <div class="space-y-3 text-gray-700">
+                <p>🕒 The Unix timestamp will reach 2 billion on May 18, 2033, at 03:33:20 UTC</p>
+                <p>💻 The Y2K38 problem will occur when the Unix timestamp exceeds 2,147,483,647 (January 19, 2038)</p>
+                <p>🎯 Many systems now use 64-bit timestamps, extending their reach to the year 292,277,026,596</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function updateEpoch() {
+            const epochElement = document.getElementById('live-epoch');
+            epochElement.textContent = `Current Epoch Time: ${Math.floor(Date.now() / 1000)}`;
+        }
+        
+        updateEpoch();
+        setInterval(updateEpoch, 1000);
+    </script>
+</body>
+</html>
