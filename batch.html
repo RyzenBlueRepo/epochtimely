@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Epoch Batch Converter Tool</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #60a5fa;
+            --accent-hover: #2563eb;
+            --border-color: #475569;
+            --success: #10b981;
+            --error: #ef4444;
+            --card-bg: #1e293b;
+            --input-bg: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .main-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            color: var(--accent-secondary);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .description {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            color: var(--text-secondary);
+            line-height: 1.7;
+            border: 1px solid var(--border-color);
+        }
+
+        .description p {
+            margin-bottom: 1rem;
+        }
+
+        .description p:last-child {
+            margin-bottom: 0;
+        }
+
+        .converter-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            resize: vertical;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            transition: all 0.2s;
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .format-options {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .format-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .format-option label {
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        button {
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .results {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .error {
+            color: var(--error);
+            padding: 0.75rem;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card h3 {
+            color: var(--accent-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        /* Custom radio buttons */
+        input[type="radio"] {
+            appearance: none;
+            width: 1.2em;
+            height: 1.2em;
+            border: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            margin: 0;
+            cursor: pointer;
+            position: relative;
+        }
+
+        input[type="radio"]:checked::before {
+            content: "";
+            position: absolute;
+            width: 0.6em;
+            height: 0.6em;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-tertiary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-color);
+        }
+
+        /* Selection styling */
+        ::selection {
+            background: var(--accent-primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1>Epoch Batch Converter Tool</h1>
+        </div>
+
+        <div class="description">
+            <p>The Epoch Batch Converter is a powerful tool designed to streamline the process of converting Unix timestamps into human-readable dates. Unix timestamps, also known as epoch timestamps, represent the number of seconds that have elapsed since January 1, 1970, 00:00:00 UTC. This tool is invaluable for developers, data analysts, and system administrators who frequently work with log files, database timestamps, or any system that uses Unix time.</p>
+            <p>Our converter supports batch processing, allowing you to convert multiple timestamps simultaneously, saving valuable time and effort. Whether you need local time or UTC format, this tool provides accurate conversions with a clean, user-friendly interface.</p>
+        </div>
+
+        <div class="converter-container">
+            <div class="input-group">
+                <label for="timestamps">Enter Unix Timestamps (one per line):</label>
+                <textarea id="timestamps" placeholder="Enter your timestamps here..."></textarea>
+            </div>
+
+            <div class="format-options">
+                <div class="format-option">
+                    <input type="radio" id="format-local" name="format" value="local" checked>
+                    <label for="format-local">Local Time</label>
+                </div>
+                <div class="format-option">
+                    <input type="radio" id="format-utc" name="format" value="utc">
+                    <label for="format-utc">UTC</label>
+                </div>
+            </div>
+
+            <button onclick="convertTimestamps()">Convert Timestamps</button>
+
+            <div id="results" class="results" style="display: none;">
+                <div id="output"></div>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Batch Processing</h3>
+                    <p>Convert multiple timestamps at once, saving time and effort.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Format Options</h3>
+                    <p>Choose between local time and UTC for your convenience.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Error Handling</h3>
+                    <p>Clear feedback for invalid or malformed timestamps.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function convertTimestamps() {
+            const input = document.getElementById('timestamps').value.trim();
+            const outputDiv = document.getElementById('output');
+            const resultsDiv = document.getElementById('results');
+            const format = document.querySelector('input[name="format"]:checked').value;
+            
+            if (!input) {
+                showError('Please enter at least one timestamp.');
+                return;
+            }
+
+            const timestamps = input.split('\n').filter(t => t.trim());
+            let output = '';
+
+            for (const timestamp of timestamps) {
+                try {
+                    const ts = parseInt(timestamp.trim());
+                    if (isNaN(ts)) {
+                        output += `Invalid timestamp: ${timestamp}\n`;
+                        continue;
+                    }
+
+                    const date = new Date(ts * 1000);
+                    const formattedDate = format === 'utc' 
+                        ? date.toUTCString()
+                        : date.toString();
+
+                    output += `${timestamp} → ${formattedDate}\n`;
+                } catch (e) {
+                    output += `Error converting timestamp: ${timestamp}\n`;
+                }
+            }
+
+            outputDiv.textContent = output;
+            resultsDiv.style.display = 'block';
+        }
+
+        function showError(message) {
+            const resultsDiv = document.getElementById('results');
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = `<div class="error">${message}</div>`;
+            resultsDiv.style.display = 'block';
+        }
+
+        // Add example timestamps when clicking the textarea
+        document.getElementById('timestamps').addEventListener('focus', function(e) {
+            if (!e.target.value) {
+                e.target.value = '1634567890\n1634567891\n1634567892';
+            }
+        });
+    </script>
+</body>
+</html>
